@@ -1,7 +1,6 @@
 
 import { ErrorRequestHandler } from "express";
 import { TErrorSources } from "../../interfaces/error";
-import config from "../../config";
 
 const globalErrorHandler : ErrorRequestHandler = (err , req , res , next) : any => {
     let statusCode = err.status || 500 ;
@@ -12,8 +11,8 @@ const globalErrorHandler : ErrorRequestHandler = (err , req , res , next) : any 
         success : false ,
         message ,
         errorSources ,
-        error : config.nodeEnv === "development" ? err : null ,
-        stack : config.nodeEnv === "development" ? err.stack : null ,
+        error : err ,
+        stack : err.stack ,
     })
 }
 
