@@ -1,7 +1,8 @@
 
 import express from 'express' ;
 import cors from 'cors' ;
-import router from './app/routes';
+import globalErrorHandler from './app/modules/middleware/globalErrorHandler';
+import notFound from './app/modules/middleware/notFound';
 
 const app = express() ;
 
@@ -13,5 +14,8 @@ app.use(cors()) ;
 app.get('/' , (req , res) => {
     res.json({success : true , message : "The server is running !"}) ;
 })
+
+app.use(notFound) ;
+app.use(globalErrorHandler) ;
 
 export default app ;

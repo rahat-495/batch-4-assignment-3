@@ -4,7 +4,8 @@
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.9.5"
+    "mongoose": "^8.9.5",
+    "zod": "^3.24.1"
   },
   "name": "batch-4-assignment-3-rahat-495",
   "version": "1.0.0",
