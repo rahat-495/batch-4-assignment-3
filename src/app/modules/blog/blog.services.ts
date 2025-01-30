@@ -6,6 +6,11 @@ import httpStatus from "http-status";
 import { blogsModel } from "./blog.model";
 import { JwtPayload } from "jsonwebtoken";
 
+const getAllBlogsFromDb = async () => {
+    const result = await blogsModel.find().populate("author").select("-createdAt -updatedAt -__v") ;
+    return result ;
+}
+
 const createBlogIntoDb = async (payload : TBlogs , token : JwtPayload) => {
     const isUserAxist = await usersModel.findOne({email : token?.email}) ;
     if(!isUserAxist){
@@ -45,4 +50,5 @@ export const blogServices = {
     createBlogIntoDb ,
     updateBlogFromDb ,
     deleteBlogFromDb ,
+    getAllBlogsFromDb ,
 }
