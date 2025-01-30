@@ -17,6 +17,10 @@ const AppErrors_1 = __importDefault(require("../../errors/AppErrors"));
 const user_model_1 = require("../user/user.model");
 const http_status_1 = __importDefault(require("http-status"));
 const blog_model_1 = require("./blog.model");
+const getAllBlogsFromDb = () => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield blog_model_1.blogsModel.find().populate("author").select("-createdAt -updatedAt -__v");
+    return result;
+});
 const createBlogIntoDb = (payload, token) => __awaiter(void 0, void 0, void 0, function* () {
     const isUserAxist = yield user_model_1.usersModel.findOne({ email: token === null || token === void 0 ? void 0 : token.email });
     if (!isUserAxist) {
@@ -51,4 +55,5 @@ exports.blogServices = {
     createBlogIntoDb,
     updateBlogFromDb,
     deleteBlogFromDb,
+    getAllBlogsFromDb,
 };

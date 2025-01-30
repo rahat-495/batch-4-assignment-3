@@ -16,6 +16,12 @@ exports.blogControllers = void 0;
 const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
 const sendResponse_1 = __importDefault(require("../../utils/sendResponse"));
 const blog_services_1 = require("./blog.services");
+const getAllBlogs = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield blog_services_1.blogServices.getAllBlogsFromDb();
+    if (result) {
+        (0, sendResponse_1.default)(res, { data: result, statusCode: 201, success: true, message: "Blog created successfully" });
+    }
+}));
 const createBlog = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield blog_services_1.blogServices.createBlogIntoDb(req.body, req.user);
     if (result) {
@@ -38,4 +44,5 @@ exports.blogControllers = {
     createBlog,
     updateBlog,
     deleteBlog,
+    getAllBlogs,
 };
