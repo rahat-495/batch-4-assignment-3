@@ -20,7 +20,7 @@ const registerUserIntoDb = async (paylaod : TUser) => {
 }
 
 const loginUser = async (payload : TLogin) => {
-    const isUserAxist = await usersModel.findOne({email : payload.email}) ;
+    const isUserAxist = await usersModel.findOne({email : payload.email}).select("+password") ;
     if(!isUserAxist){
         throw new AppError(404 , "User not found !") ;
     }
@@ -29,7 +29,7 @@ const loginUser = async (payload : TLogin) => {
     if(isBlocked){
         throw new AppError(403 , "User is blocked !") ;
     }
-
+    
     const isPasswordMatched = await bcrypt.compare(payload.password , isUserAxist?.password) ;
     if(!isPasswordMatched){
         throw new AppError(401 , "Password is not matched !") ;

@@ -13,10 +13,26 @@ const createBlogIntoDb = async (payload : TBlogs , token : JwtPayload) => {
     }
     payload.author = isUserAxist?._id ;
     const blog = await blogsModel.create(payload) ;
-    const result = await blogsModel.findById(blog?._id).populate("author") ;
+    const result = await blogsModel.findById(blog?._id).populate("author").select("-createdAt -updatedAt -__v") ;
+    return result ;
+}
+
+const updateBlogFromDb = async (blogId : string , payload : TBlogs , token : JwtPayload) => {
+    const isUserAxist = await usersModel.findOne({email : token?.email}) ;
+    if(!isUserAxist){
+        throw new AppError(httpStatus.NOT_FOUND , "User not found !") ;
+    }
+
+    const isBlogAxist = await blogsModel.findById(blogId) ;
+    if(!isBlogAxist){
+        throw new AppError(httpStatus.NOT_FOUND , "Blog not found !") ;
+    }
+    
+    const result = await blogsModel.findByIdAndUpdate(blogId , payload , {new : true}).select("-createdAt -updatedAt -__v").populate("author") ;
     return result ;
 }
 
 export const blogServices = {
     createBlogIntoDb ,
+    updateBlogFromDb ,
 }

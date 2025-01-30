@@ -18,6 +18,7 @@ const blogSchema = new Schema<TBlogs>({
     isPublished : {
         type : Boolean ,
         default : false ,
+        select : 0 ,
     },
 },{
     timestamps : true ,
