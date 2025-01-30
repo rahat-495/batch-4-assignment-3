@@ -6,3 +6,5 @@ export type TUser = {
     role ?: "admin" | "user" ,
     isBlocked ?: boolean ,
 }
+
+export type TUserRole = "admin" | "user" ;
