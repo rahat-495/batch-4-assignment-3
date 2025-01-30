@@ -25,10 +25,17 @@ const createBlog = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, voi
 const updateBlog = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield blog_services_1.blogServices.updateBlogFromDb(req.params.id, req.body, req.user);
     if (result) {
-        (0, sendResponse_1.default)(res, { data: result, statusCode: 201, success: true, message: "Blog updated successfully" });
+        (0, sendResponse_1.default)(res, { data: result, statusCode: 200, success: true, message: "Blog updated successfully" });
+    }
+}));
+const deleteBlog = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield blog_services_1.blogServices.deleteBlogFromDb(req.params.id);
+    if (result) {
+        (0, sendResponse_1.default)(res, { data: {}, statusCode: 200, success: true, message: "Blog deleted successfully" });
     }
 }));
 exports.blogControllers = {
     createBlog,
     updateBlog,
+    deleteBlog,
 };

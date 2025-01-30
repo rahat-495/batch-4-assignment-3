@@ -39,7 +39,16 @@ const updateBlogFromDb = (blogId, payload, token) => __awaiter(void 0, void 0, v
     const result = yield blog_model_1.blogsModel.findByIdAndUpdate(blogId, payload, { new: true }).select("-createdAt -updatedAt -__v").populate("author");
     return result;
 });
+const deleteBlogFromDb = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const isBlogAxist = yield blog_model_1.blogsModel.findById(id);
+    if (!isBlogAxist) {
+        throw new AppErrors_1.default(http_status_1.default.NOT_FOUND, "Blog not found !");
+    }
+    const result = yield blog_model_1.blogsModel.findByIdAndDelete(id);
+    return result;
+});
 exports.blogServices = {
     createBlogIntoDb,
     updateBlogFromDb,
+    deleteBlogFromDb,
 };

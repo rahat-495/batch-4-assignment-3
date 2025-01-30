@@ -49,7 +49,7 @@ const globalErrorHandler = (err, req, res, next) => {
     return res.status(statusCode).json({
         success: false,
         message,
-        errorSources,
+        statusCode,
         error: err,
         stack: err.stack,
     });
