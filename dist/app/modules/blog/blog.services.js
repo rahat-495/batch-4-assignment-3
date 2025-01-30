@@ -24,9 +24,22 @@ const createBlogIntoDb = (payload, token) => __awaiter(void 0, void 0, void 0, f
     }
     payload.author = isUserAxist === null || isUserAxist === void 0 ? void 0 : isUserAxist._id;
     const blog = yield blog_model_1.blogsModel.create(payload);
-    const result = yield blog_model_1.blogsModel.findById(blog === null || blog === void 0 ? void 0 : blog._id).populate("author");
+    const result = yield blog_model_1.blogsModel.findById(blog === null || blog === void 0 ? void 0 : blog._id).populate("author").select("-createdAt -updatedAt -__v");
+    return result;
+});
+const updateBlogFromDb = (blogId, payload, token) => __awaiter(void 0, void 0, void 0, function* () {
+    const isUserAxist = yield user_model_1.usersModel.findOne({ email: token === null || token === void 0 ? void 0 : token.email });
+    if (!isUserAxist) {
+        throw new AppErrors_1.default(http_status_1.default.NOT_FOUND, "User not found !");
+    }
+    const isBlogAxist = yield blog_model_1.blogsModel.findById(blogId);
+    if (!isBlogAxist) {
+        throw new AppErrors_1.default(http_status_1.default.NOT_FOUND, "Blog not found !");
+    }
+    const result = yield blog_model_1.blogsModel.findByIdAndUpdate(blogId, payload, { new: true }).select("-createdAt -updatedAt -__v").populate("author");
     return result;
 });
 exports.blogServices = {
     createBlogIntoDb,
+    updateBlogFromDb,
 };

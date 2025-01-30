@@ -30,7 +30,7 @@ const registerUserIntoDb = (paylaod) => __awaiter(void 0, void 0, void 0, functi
     }
 });
 const loginUser = (payload) => __awaiter(void 0, void 0, void 0, function* () {
-    const isUserAxist = yield user_model_1.usersModel.findOne({ email: payload.email });
+    const isUserAxist = yield user_model_1.usersModel.findOne({ email: payload.email }).select("+password");
     if (!isUserAxist) {
         throw new AppErrors_1.default(404, "User not found !");
     }

@@ -18,6 +18,7 @@ const blogSchema = new mongoose_1.Schema({
     isPublished: {
         type: Boolean,
         default: false,
+        select: 0,
     },
 }, {
     timestamps: true,
