@@ -32,7 +32,17 @@ const updateBlogFromDb = async (blogId : string , payload : TBlogs , token : Jwt
     return result ;
 }
 
+const deleteBlogFromDb = async (id : string) => {
+    const isBlogAxist = await blogsModel.findById(id) ;
+    if(!isBlogAxist){
+        throw new AppError(httpStatus.NOT_FOUND , "Blog not found !") ;
+    }
+    const result = await blogsModel.findByIdAndDelete(id) ;
+    return result ;
+}
+
 export const blogServices = {
     createBlogIntoDb ,
     updateBlogFromDb ,
+    deleteBlogFromDb ,
 }

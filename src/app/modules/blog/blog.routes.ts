@@ -7,6 +7,7 @@ import { blogValidations } from "./blog.validation";
 
 const router = Router() ;
 
+router.delete('/:id' , auth("user") , blogControllers.deleteBlog) ;
 router.post('/' , auth("user") , validateRequest(blogValidations.createBlogValidationSchema) , blogControllers.createBlog) ;
 router.patch('/:id' , auth("user") , validateRequest(blogValidations.updateBlogValidationSchema) , blogControllers.updateBlog) ;
 
