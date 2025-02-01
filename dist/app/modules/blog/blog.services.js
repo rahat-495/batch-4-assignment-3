@@ -17,8 +17,18 @@ const AppErrors_1 = __importDefault(require("../../errors/AppErrors"));
 const user_model_1 = require("../user/user.model");
 const http_status_1 = __importDefault(require("http-status"));
 const blog_model_1 = require("./blog.model");
-const getAllBlogsFromDb = () => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield blog_model_1.blogsModel.find().populate("author").select("-createdAt -updatedAt -__v");
+const getAllBlogsFromDb = (query) => __awaiter(void 0, void 0, void 0, function* () {
+    const searchAbleFields = ['title', 'content'];
+    let search = "";
+    if (query === null || query === void 0 ? void 0 : query.search) {
+        search = query.search;
+    }
+    const searchQuery = blog_model_1.blogsModel.find({ $or: searchAbleFields.map((field) => ({ [field]: { $regex: search, $options: 'i' } })) });
+    let filterId = "";
+    if (query === null || query === void 0 ? void 0 : query.filter) {
+        filterId = query.filter;
+    }
+    const result = yield searchQuery.find({ _id: filterId }).populate("author").select("-createdAt -updatedAt -__v");
     return result;
 });
 const createBlogIntoDb = (payload, token) => __awaiter(void 0, void 0, void 0, function* () {
