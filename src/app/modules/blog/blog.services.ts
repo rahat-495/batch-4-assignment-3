@@ -6,8 +6,21 @@ import httpStatus from "http-status";
 import { blogsModel } from "./blog.model";
 import { JwtPayload } from "jsonwebtoken";
 
-const getAllBlogsFromDb = async () => {
-    const result = await blogsModel.find().populate("author").select("-createdAt -updatedAt -__v") ;
+const getAllBlogsFromDb = async (query : Record<string , unknown>) => {
+    const searchAbleFields = ['title' , 'content'] ;
+    
+    let search = "" ;
+    if(query?.search){
+        search = query.search as string ;
+    }
+    const searchQuery = blogsModel.find({ $or : searchAbleFields.map((field) => ({ [field] : { $regex : search , $options : 'i' } })) }) ;
+    
+    let filterId = "" ;
+    if(query?.filter){
+        filterId = query.filter as string ;
+    }
+
+    const result = await searchQuery.find({ _id : filterId}).populate("author").select("-createdAt -updatedAt -__v") ;
     return result ;
 }
 

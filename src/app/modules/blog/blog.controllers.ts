@@ -3,7 +3,7 @@ import sendResponse from "../../utils/sendResponse";
 import { blogServices } from "./blog.services";
 
 const getAllBlogs = catchAsync(async (req , res) => {
-    const result = await blogServices.getAllBlogsFromDb() ;
+    const result = await blogServices.getAllBlogsFromDb(req.query) ;
     if(result){
         sendResponse<object>(res , { data : result , statusCode : 201 , success : true , message : "Blog created successfully"}) ;
     }
