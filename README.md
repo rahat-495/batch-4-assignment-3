@@ -4,7 +4,7 @@
 This is a secure and efficient backend for a blogging platform where users can create, update, and delete their own blogs, while admins have special permissions to manage users and their blogs. The platform supports authentication, role-based access control, and public blog APIs with search, sorting, and filtering functionalities.
 
 ## 🚀 Live Demo
-[Live API URL] (if hosted, provide the link here)
+https://batch-4-assignment-3-rahat-495.vercel.app/
 
 ## 🔥 Features
 - **User Roles:** Admin & User with distinct privileges.
