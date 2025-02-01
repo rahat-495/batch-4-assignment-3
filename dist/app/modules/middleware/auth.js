@@ -35,7 +35,7 @@ const auth = (...requiredRoles) => {
             throw new AppErrors_1.default(400, "The user is already blocked !");
         }
         if (requiredRoles && !requiredRoles.includes(role)) {
-            throw new AppErrors_1.default(http_status_1.default.UNAUTHORIZED, "You are not authorized !");
+            throw new AppErrors_1.default(http_status_1.default.UNAUTHORIZED, "You are unauthorized !");
         }
         req.user = decoded;
         next();

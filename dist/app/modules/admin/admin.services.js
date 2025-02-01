@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.adminServices = void 0;
 const AppErrors_1 = __importDefault(require("../../errors/AppErrors"));
+const blog_model_1 = require("../blog/blog.model");
 const user_model_1 = require("../user/user.model");
 const http_status_1 = __importDefault(require("http-status"));
 const blockUserIntoDb = (id) => __awaiter(void 0, void 0, void 0, function* () {
@@ -27,6 +28,15 @@ const blockUserIntoDb = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield user_model_1.usersModel.findByIdAndUpdate(id, { isBlocked: true }, { new: true });
     return result;
 });
+const deleteblogIntoDb = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const isBlogAxist = yield blog_model_1.blogsModel.findById(id);
+    if (!isBlogAxist) {
+        throw new AppErrors_1.default(404, "Blog Not Fount !");
+    }
+    const result = yield blog_model_1.blogsModel.findByIdAndDelete(id);
+    return result;
+});
 exports.adminServices = {
-    blockUserIntoDb
+    blockUserIntoDb,
+    deleteblogIntoDb,
 };
