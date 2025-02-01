@@ -18,6 +18,16 @@ const getAllBlogsFromDb = async (query : Record<string , unknown>) => {
     if(query?.filter){
         filterId = query.filter as string ;
     }
+    
+    let sort = "-createdAt" ;
+    if(query?.filter){
+        sort = query.sortBy as string ;
+    }
+    
+    let sortOrder = "desc" ;
+    if(query?.filter){
+        sortOrder = query.sortOrder as "asc" | "desc" ;
+    }
 
     const queryConditions : any = {
         $or: searchAbleFields.map((field) => ({
@@ -26,10 +36,10 @@ const getAllBlogsFromDb = async (query : Record<string , unknown>) => {
     }
 
     if(filterId){
-        queryConditions._id = filterId ;
+        queryConditions.author = filterId ;
     }
 
-    const result = await blogsModel.find(queryConditions).populate("author").select("-createdAt -updatedAt -__v") ;
+    const result = await blogsModel.find(queryConditions).populate("author").select("-createdAt -updatedAt -__v").sort({[sort] : sortOrder === "asc" ? 1 : -1}) ;
     return result ;
 }
 
