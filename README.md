@@ -30,8 +30,8 @@ This is a secure and efficient backend for a blogging platform where users can c
 
 ### 1️⃣ Clone the Repository
 ```sh
- git clone https://github.com/yourusername/blogging-platform-backend.git
- cd blogging-platform-backend
+ git clone https://github.com/rahat-495/batch-4-assignment-3.git
+ cd batch-4-assignment-3
 ```
 
 ### 2️⃣ Install Dependencies
@@ -42,7 +42,7 @@ This is a secure and efficient backend for a blogging platform where users can c
 ### 3️⃣ Configure Environment Variables
 Create a `.env` file in the root directory and configure the following:
 ```env
-PORT=5000
+PORT=5555
 MONGO_URI=your_mongodb_connection_string
 JWT_SECRET=your_secret_key
 ```
@@ -51,7 +51,7 @@ JWT_SECRET=your_secret_key
 ```sh
  npm run dev
 ```
-The server will be running on `http://localhost:5000`
+The server will be running on `http://localhost:5555`
 
 ## 🔑 API Endpoints
 ### 1️⃣ Authentication
