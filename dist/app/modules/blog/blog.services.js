@@ -68,10 +68,14 @@ const updateBlogFromDb = (blogId, payload, token) => __awaiter(void 0, void 0, v
     const result = yield blog_model_1.blogsModel.findByIdAndUpdate(blogId, payload, { new: true }).select("-createdAt -updatedAt -__v").populate("author");
     return result;
 });
-const deleteBlogFromDb = (id) => __awaiter(void 0, void 0, void 0, function* () {
+const deleteBlogFromDb = (id, user) => __awaiter(void 0, void 0, void 0, function* () {
     const isBlogAxist = yield blog_model_1.blogsModel.findById(id);
+    const userData = yield user_model_1.usersModel.findById(isBlogAxist === null || isBlogAxist === void 0 ? void 0 : isBlogAxist.author);
     if (!isBlogAxist) {
         throw new AppErrors_1.default(http_status_1.default.NOT_FOUND, "Blog not found !");
+    }
+    if ((user === null || user === void 0 ? void 0 : user.email) !== (userData === null || userData === void 0 ? void 0 : userData.email)) {
+        throw new AppErrors_1.default(http_status_1.default.UNAUTHORIZED, "You are not authorized !");
     }
     const result = yield blog_model_1.blogsModel.findByIdAndDelete(id);
     return result;

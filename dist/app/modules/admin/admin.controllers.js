@@ -30,7 +30,7 @@ const deleteBlog = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, voi
     if (result) {
         res.status(200).json({
             success: true,
-            message: "User blocked successfully",
+            message: "Blog deleted successfully",
             statusCode: 200,
         });
     }
