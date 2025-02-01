@@ -23,12 +23,19 @@ const getAllBlogsFromDb = (query) => __awaiter(void 0, void 0, void 0, function*
     if (query === null || query === void 0 ? void 0 : query.search) {
         search = query.search;
     }
-    const searchQuery = blog_model_1.blogsModel.find({ $or: searchAbleFields.map((field) => ({ [field]: { $regex: search, $options: 'i' } })) });
     let filterId = "";
     if (query === null || query === void 0 ? void 0 : query.filter) {
         filterId = query.filter;
     }
-    const result = yield searchQuery.find({ _id: filterId }).populate("author").select("-createdAt -updatedAt -__v");
+    const queryConditions = {
+        $or: searchAbleFields.map((field) => ({
+            [field]: { $regex: search, $options: "i" }
+        }))
+    };
+    if (filterId) {
+        queryConditions._id = filterId;
+    }
+    const result = yield blog_model_1.blogsModel.find(queryConditions).populate("author").select("-createdAt -updatedAt -__v");
     return result;
 });
 const createBlogIntoDb = (payload, token) => __awaiter(void 0, void 0, void 0, function* () {
