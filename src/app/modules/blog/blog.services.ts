@@ -13,14 +13,23 @@ const getAllBlogsFromDb = async (query : Record<string , unknown>) => {
     if(query?.search){
         search = query.search as string ;
     }
-    const searchQuery = blogsModel.find({ $or : searchAbleFields.map((field) => ({ [field] : { $regex : search , $options : 'i' } })) }) ;
     
     let filterId = "" ;
     if(query?.filter){
         filterId = query.filter as string ;
     }
 
-    const result = await searchQuery.find({ _id : filterId}).populate("author").select("-createdAt -updatedAt -__v") ;
+    const queryConditions : any = {
+        $or: searchAbleFields.map((field) => ({
+            [field]: { $regex: search, $options: "i" }
+        }))
+    }
+
+    if(filterId){
+        queryConditions._id = filterId ;
+    }
+
+    const result = await blogsModel.find(queryConditions).populate("author").select("-createdAt -updatedAt -__v") ;
     return result ;
 }
 
